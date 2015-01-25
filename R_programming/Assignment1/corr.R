@@ -1,4 +1,4 @@
-setwd("C:/Users/Larissa/datasciencecoursera/datasciencecoursera/R_programmin/Assignment1")
+setwd("C:/Users/Larissa/datasciencecoursera/datasciencecoursera/R_programming/Assignment1")
 corr <- function(directory, threshold = 0) {
   ## 'directory' is a character vector of length 1 indicating
   ## the location of the CSV files

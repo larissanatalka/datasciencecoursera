@@ -1,37 +1,20 @@
-#Set working directory.
-setwd("C:/Users/Larissa/datasciencecoursera/datasciencecoursera/R_programmin/Assignment1")
-
-#list.files()
-pollutantmean <- function(directory, pollutant = "sulfate", id = 1:332) {
-  ## 'directory' is a character vector of length 1 indicating
-  ## the location of the CSV files
+pollutantmean <- function(directory, pollutant, id = 1:332) {
+  # create character vector of filenames based on passed id
+  datafiles <- c()
+  datafiles <- c(datafiles, paste(directory, "/", formatC(id, width=3, flag="0"), ".csv", sep=""))
   
-  ## 'pollutant' is a character vector of length 1 indicating
-  ## the name of the pollutant for which we will calculate the
-  ## mean; either "sulfate" or "nitrate".
+  # read all files specified above
+  my_data <- lapply(datafiles, read.csv)
+  my_data <- do.call(rbind, my_data)
   
-  ## 'id' is an integer vector indicating the monitor ID numbers
-  ## to be used
-  
-  ## Return the mean of the pollutant across all monitors list
-  ## in the 'id' vector (ignoring NA values)
-  
-  # set working directory
-  if(grep("specdata", directory) == 1) {
-    directory <- ("./specdata/")
-  }
-  # initialize a vector to hold the pollutant data
-  mean_vector <- c()
-  # find all files in the specdata folder
-  all_files <- as.character( list.files(directory) )
-  file_paths <- paste(directory, all_files, sep="")
-  for(i in id) {
-    current_file <- read.csv(file_paths[i], header=T, sep=",")
-    head(current_file)
-    pollutant
-    na_removed <- current_file[!is.na(current_file[, pollutant]), pollutant]
-    mean_vector <- c(mean_vector, na_removed)
-  }
-  result <- mean(mean_vector)
-  return(round(result, 3)) 
+  #display sulfate or nitrate mean
+  if (pollutant == colnames(my_data)[2]) {
+    sulfate <- mean(my_data[,2], na.rm = TRUE)
+    sulfate <- round(sulfate, digits = 3)
+    return(sulfate)
+  } else {
+    nitrate <- mean(my_data[,3], na.rm = TRUE)
+    nitrate <- round(nitrate, digits = 3)
+    return(nitrate) 
+  }       
 }
